@@ -1,0 +1,42 @@
+[search.shapefile]
+path = "./data/converted"
+
+[search.shapefile.attributes]
+"TL_SCCO_CTPRVN" = { level = 1, names =  ["CTPRVN_CD", "CTP_KOR_NM", "CTP_ENG_NM"]}
+"TL_SCCO_SIG" = { level = 2, names = ["SIG_CD", "SIG_KOR_NM", "SIG_ENG_NM"]}
+"TL_SCCO_EMD" = { level = 3, names = ["EMD_CD", "EMD_KOR_NM", "EMD_ENG_NM"]}
+"TL_SCCO_LI" = { level = 4, names = ["LI_CD", "LI_KOR_NM", "LI_ENG_NM"]}
+"AL_D002_" = { level = 5, names = ["A3", "A4", "A5"]}
+
+[search]
+districts = [
+    #"11000",    
+    #"41000",    
+    #"46000", 
+    "36000",   
+]
+
+hierarchies = [
+    "TL_SCCO_CTPRVN",
+]
+
+district_par = [
+    "TL_SCCO_SIG",
+    "TL_SCCO_EMD",
+    "TL_SCCO_LI",
+]
+
+district_par_any = [
+    "AL_D002_"
+]
+
+debug = false
+debug_name = ""
+
+[rest]
+port = 8080
+host = "localhost"
+
+[grpc]
+port = 8090
+host = "localhost"

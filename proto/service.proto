@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package grpc;
+
+service Service {
+    rpc Tarantula (TarantulaReq) returns (TarantulaReply);
+}
+
+message TarantulaReq {
+    double lon = 1;
+    double lat = 2;
+}
+
+message TarantulaReply {
+   repeated Info infos = 1;
+}
+
+message Info {
+    string district = 1;
+    int32 level = 2;
+    string name = 3;
+}

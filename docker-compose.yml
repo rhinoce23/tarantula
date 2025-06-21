@@ -1,0 +1,12 @@
+services:
+ tarantula:
+  container_name: tarantula
+  image: tarantula:latest
+  entrypoint: /bin/bash
+  stdin_open: true
+  tty: true
+  volumes:
+   - ./:/tarantula/
+  ports:
+   - "9095:9095"
+   - "8080:8080"
