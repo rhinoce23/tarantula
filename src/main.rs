@@ -1,14 +1,12 @@
 
-#[link(
-    name = "s2",
-    kind = "dylib",
-)]
+#[link(name = "s2", kind = "dylib")]
 extern {}
 
 use autocxx::prelude::*;
 include_cpp! {
     #include "cc/polygon.h"
     safety!(unsafe)
+    opaque!("absl::container_internal::btree_map_container")
     generate!("Polygons")
     generate!("Polygon")
     generate!("LngLat")
