@@ -1,13 +1,23 @@
-FROM rust:alpine3.20
+FROM rust:bookworm
 
-RUN apk add --no-cache bash
-RUN apk add --no-cache git
-RUN apk add --no-cache jq
-RUN apk add --no-cache tzdata
-RUN apk add --no-cache make g++ cmake openssl-dev gtest-dev proj-dev swig s2geometry-dev
-RUN apk add --no-cache geos-dev
-RUN apk add --no-cache postgresql
-RUN apk add --no-cache postgis
-RUN apk add --no-cache aws-cli
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    g++ \
+    clang \
+    libclang-dev \
+    llvm-dev \
+    lld \
+    cmake \
+    libssl-dev \
+    protobuf-compiler \
+    libprotobuf-dev \
+    libabsl-dev \
+    libs2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tarantula
+#COPY . /tarantula
+#RUN cargo build --locked
+
+EXPOSE 8080 8090
+#CMD ["cargo", "run"]

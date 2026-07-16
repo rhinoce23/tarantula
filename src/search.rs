@@ -20,14 +20,23 @@ use std::sync::Mutex;
 
 pub fn initialize_global_search() {
     unsafe {
-        GLOBAL_SEARCH = Some(
-            Search::new(crate::GLOBAL_CONFIG.search.clone())
-                .and_then(|mut search| {
-                    search.load().expect("failed to load search");
-                    Ok(search)
-                })
-                .expect("failed to create search")
-        );
+        let search_config = crate::GLOBAL_CONFIG.search.clone();
+        let search = Search::new(search_config.clone())
+            .and_then(|mut search| {
+                match search.load() {
+                    Ok(()) => Ok(search),
+                    Err(err) => {
+                        eprintln!("warning: failed to load search data: {err}");
+                        Ok(search)
+                    }
+                }
+            })
+            .unwrap_or_else(|err| {
+                eprintln!("warning: failed to create search: {err}");
+                Search::new(search_config).unwrap_or_else(|_| panic!("failed to create fallback search"))
+            });
+
+        GLOBAL_SEARCH = Some(search);
     }
 }
 
@@ -96,17 +105,22 @@ impl Search{
                     .attributes
                     .get(name)
                     .chain_err(|| format!("{} attribute", name))?;
-        
+
+                let shapefile_path = format!("{}/{}/{}.shp", config.shapefile.path, district, name);
+                if !std::path::Path::new(&shapefile_path).exists() {
+                    println!("skip missing shapefile: {shapefile_path}");
+                    return Ok(());
+                }
+
                 let result = self.get_polygons(
                     district,
                     attribute.level,
-                    format!("{}/{}/{}.shp", config.shapefile.path, district, name)
-                    .as_str(),
+                    shapefile_path.as_str(),
                     &attribute.names.as_ref(),
                     config.debug,
                     &config.debug_name,
                 )?;
-        
+
                 self.hierarchies.push(result);
                 Ok(())
             })

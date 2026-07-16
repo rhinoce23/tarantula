@@ -1,12 +1,15 @@
 services:
- tarantula:
-  container_name: tarantula
-  image: tarantula:latest
-  entrypoint: /bin/bash
-  stdin_open: true
-  tty: true
-  volumes:
-   - ./:/tarantula/
-  ports:
-   - "9095:9095"
-   - "8080:8080"
+  tarantula:
+    container_name: tarantula
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tarantula:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/tarantula/
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    command: cargo run --release
