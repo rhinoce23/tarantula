@@ -1,7 +1,15 @@
 
 fn main() -> miette::Result<()> {
+    let docs_rs = std::env::var_os("DOCS_RS").is_some() || std::env::var_os("CARGO_CFG_DOCSRS").is_some();
+    if docs_rs {
+        println!("cargo:rerun-if-changed=src/main.rs");
+        println!("cargo:rerun-if-changed=tests/test.rs");
+        println!("cargo:rerun-if-changed=src/cc/polygon.cc");
+        return Ok(());
+    }
+
     let path = std::path::PathBuf::from("src");
-    let mut b = autocxx_build::Builder::new("src/main.rs", [&path])
+    let mut b = autocxx_build::Builder::new("src/lib.rs", [&path])
         .extra_clang_args(&["-std=c++17"])
         .build()?;
     b.compiler("clang++")

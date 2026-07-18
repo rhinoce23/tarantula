@@ -1,4 +1,9 @@
 
+//! Search index and polygon lookup utilities.
+//!
+//! The module builds in-memory polygon indexes from shapefiles and exposes
+//! search helpers used by the REST and gRPC services.
+
 mod errors {
     error_chain::error_chain! { }
 }
