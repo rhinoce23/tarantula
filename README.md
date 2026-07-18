@@ -342,3 +342,38 @@ npm install
 npm run start
 ```
 
+### 라이브러리로 사용하기
+이제 `search.rs`는 별도의 라이브러리 진입점으로 노출되어, 다른 Rust 프로젝트에서도 직접 사용할 수 있습니다.
+
+```rust
+use tarantula_s2::search::Search;
+use tarantula_s2::config::Config;
+
+let config = Config {
+    search: tarantula_s2::config::Search {
+        shapefile: tarantula_s2::config::Shapefile {
+            path: "./data/converted".to_string(),
+            attributes: std::collections::HashMap::new(),
+        },
+        districts: vec!["36000".to_string()],
+        hierarchies: vec![],
+        district_par: vec![],
+        district_par_any: vec![],
+        debug: false,
+        debug_name: String::new(),
+    },
+    rest: tarantula_s2::config::Rest {
+        port: 8080,
+        host: "127.0.0.1".to_string(),
+    },
+    grpc: tarantula_s2::config::Grpc {
+        port: 8090,
+        host: "127.0.0.1".to_string(),
+    },
+};
+
+let mut search = Search::new(config.search).expect("create search");
+search.load().expect("load search");
+let results = search.search(126.973826366, 37.532190912).expect("search");
+println!("{results:?}");
+```

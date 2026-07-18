@@ -1,11 +1,25 @@
 [package]
-name = "tarantula"
+name = "tarantula-s2"
 version = "0.1.0"
 edition = "2021"
 
+exclude = [
+    "data/*",     
+    ".vscode/*",
+    "shape_convert/*",
+    "shape_edit/*"
+]
+
+description = "Search polygons at lngitude/latitude with s2geometry"
+
+license = "MIT OR Apache-2.0"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
 [dependencies]
-shapefile = "*"
-error-chain = "*"
+shapefile = "0.7.0"
+error-chain = "0.12.4"
 autocxx = "0.30.0"
 cxx = "1.0"
 geojson = "0.24.1"
@@ -18,13 +32,13 @@ tower = "0.4"
 tower-http = { version = "0.3.5", features = ["trace"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
-once_cell = "*"
+once_cell = "1.21.3"
 tonic = "0.11"
 prost = "0.12"
-glob = "*"
-scopeguard = "*"
-rayon = "*"
-stopwatch = "*"
+glob = "0.3.3"
+scopeguard = "1.2.0"
+rayon = "1.11.0"
+stopwatch = "0.0.7"
 
 [build-dependencies]
 autocxx-build = "0.30.0"
