@@ -14,7 +14,11 @@ description = "Search polygons at lngitude/latitude with s2geometry"
 
 license = "MIT OR Apache-2.0"
 
+[features]
+nobuild = []
+
 [package.metadata.docs.rs]
+features = ["nobuild"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
