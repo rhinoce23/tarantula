@@ -356,7 +356,7 @@ let config = Config {
             attributes: std::collections::HashMap::new(),
         },
         districts: vec!["36000".to_string()],
-        hierarchies: vec![],
+        hierarchies: vec!["TL_SCCO_CTPRVN".to_string()],
         district_par: vec![],
         district_par_any: vec![],
         debug: false,
