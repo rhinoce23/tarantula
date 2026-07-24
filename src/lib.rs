@@ -88,7 +88,14 @@ pub mod ffi {
 pub mod config;
 pub mod search;
 pub mod rest;
+
+#[cfg(not(docsrs))]
 pub mod grpc;
+
+#[cfg(docsrs)]
+pub mod grpc {
+    pub async fn start_server() {}
+}
 pub mod utils;
 
 pub use search::{Info, Search};
